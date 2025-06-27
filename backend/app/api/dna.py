@@ -1,33 +1,23 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from typing import List
+from .. import crud, schemas
+from ..database import get_db
 
 router = APIRouter()
 
-@router.get("/dna-artists")
-def get_dna_artists():
-    return [
-        {
-            "id": 1,
-            "name": "Coldplay",
-            "image_url": "https://placehold.co/100x100",
-            "genre": "Pop",
-            "description": "A sample pop artist.",
-            "audio_preview": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-        },
-        {
-            "id": 2,
-            "name": "The Beatles",
-            "image_url": "https://placehold.co/100x100",
-            "genre": "Rock",
-            "description": "A sample rock artist.",
-            "audio_preview": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-        },
-        {
-            "id": 3,
-            "name": "The Smiths",
-            "image_url": "https://placehold.co/100x100",
-            "genre": "Rock",
-            "description": "A sample rock artist.",
-            "audio_preview": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
-        }
-    ] 
+@router.get("/dna/", response_model=List[schemas.DNAArtist])
+def read_dna_artists(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    artists = crud.get_dna_artists(db, skip=skip, limit=limit)
+    return artists
+
+@router.get("/dna/{artist_id}", response_model=schemas.DNAArtist)
+def read_dna_artist(artist_id: int, db: Session = Depends(get_db)):
+    artist = crud.get_dna_artist(db, artist_id=artist_id)
+    if artist is None:
+        raise HTTPException(status_code=404, detail="DNA Artist not found")
+    return artist
+
+@router.post("/dna/", response_model=schemas.DNAArtist)
+def create_dna_artist(artist: schemas.DNAArtistCreate, db: Session = Depends(get_db)):
+    return crud.create_dna_artist(db=db, artist=artist) 
