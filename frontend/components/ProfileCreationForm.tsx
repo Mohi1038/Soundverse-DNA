@@ -55,6 +55,8 @@ export default function ProfileCreationForm({
   const [tagInput, setTagInput] = useState('');
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_API_URL + '/api/dna/')
@@ -63,8 +65,33 @@ export default function ProfileCreationForm({
       .catch(() => setCreators([]));
   }, []);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
-    setDropdownOpen(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
+          inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close dropdown when pressing Escape
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +137,29 @@ export default function ProfileCreationForm({
     });
     setUploading(false);
     if (onDone && !uploading) onDone();
+  };
+
+  const handleCreatorInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCreator(prev => ({ ...prev, name: e.target.value }));
+    // Only show dropdown if there's text and it's not an exact match
+    const hasText = e.target.value.trim().length > 0;
+    const exactMatch = creators.some(c => 
+      c.name?.toLowerCase() === e.target.value.toLowerCase()
+    );
+    setDropdownOpen(hasText && !exactMatch);
+  };
+
+  const handleCreatorInputFocus = () => {
+    const hasText = creator.name.trim().length > 0;
+    const exactMatch = creators.some(c => 
+      c.name?.toLowerCase() === creator.name.toLowerCase()
+    );
+    setDropdownOpen(hasText && !exactMatch);
+  };
+
+  const handleCreatorInputBlur = () => {
+    // Delay closing to allow for clicks on dropdown items
+    setTimeout(() => setDropdownOpen(false), 150);
   };
 
   return (
@@ -158,15 +208,15 @@ export default function ProfileCreationForm({
         {/* Custom Creator Dropdown */}
         <div className="flex items-center gap-4">
           <label className="w-40 text-right text-base font-grotesk">Creator Name</label>
-          <div className="relative w-96">
+          <div className="relative w-96" ref={dropdownRef}>
             <input
+              ref={inputRef}
               className="w-full bg-[#1B1B1B] text-white rounded-full px-6 py-3 font-grotesk text-base focus:outline-none"
               placeholder="Name such as Coldplay or type your own"
               value={creator.name}
-              onChange={e => {
-                setCreator(prev => ({ ...prev, name: e.target.value }));
-              }}
-              onFocus={() => setDropdownOpen(true)}
+              onChange={handleCreatorInputChange}
+              onFocus={handleCreatorInputFocus}
+              onBlur={handleCreatorInputBlur}
               disabled={disabled}
             />
             {dropdownOpen && (
