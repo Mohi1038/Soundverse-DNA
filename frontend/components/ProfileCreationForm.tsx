@@ -57,7 +57,7 @@ export default function ProfileCreationForm({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + '/api/dna-artists')
+    fetch(process.env.NEXT_PUBLIC_API_URL + '/api/dna/')
       .then(res => res.ok ? res.json() : [])
       .then(data => setCreators(data))
       .catch(() => setCreators([]));
@@ -77,12 +77,8 @@ export default function ProfileCreationForm({
   const handleImageUpload = async () => {
     if (!creator) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', new File([], ''), creator.name);
-    await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/upload-picture', {
-      method: 'POST',
-      body: formData,
-    });
+    // Image upload functionality removed - backend doesn't have upload endpoint
+    console.log('Image upload not implemented in backend yet');
     setUploading(false);
   };
 
@@ -97,27 +93,19 @@ export default function ProfileCreationForm({
     e.preventDefault();
     setUploading(true);
     console.log({
-      creator: creator.name,
-      description,
-      tags,
-      dna_visibility: creator.dnaVisibility,
-      price: creator.price,
-      license: creator.license,
-      tracks: creator.tracks,
-      partner: creator.partner,
+      user_id: 'user-123', // You can make this dynamic later
+      profile_name: creator.name,
+      dna_sequence: description, // Using description as dna_sequence for now
+      is_active: true,
     });
-    await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/dna-profile', {
+    await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/dna-profiles/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        creator: creator.name,
-        description,
-        tags,
-        dna_visibility: creator.dnaVisibility,
-        price: creator.price,
-        license: creator.license,
-        tracks: creator.tracks,
-        partner: creator.partner,
+        user_id: 'user-123', // You can make this dynamic later
+        profile_name: creator.name,
+        dna_sequence: description, // Using description as dna_sequence for now
+        is_active: true,
       }),
     });
     setUploading(false);
