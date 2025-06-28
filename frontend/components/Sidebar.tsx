@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface SidebarIconProps {
   icon: ReactNode;
@@ -14,7 +15,7 @@ const SidebarIcon = ({ icon, label, active, onClick }: SidebarIconProps) => {
   return (
     <div className="relative group">
       <button
-        className={`flex flex-col items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg ${
+        className={`flex flex-col items-center justify-center w-10 h-8 rounded-lg transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg ${
           active 
             ? 'bg-gradient-to-br from-[#66ABFF] to-[#4A90E2] text-white shadow-lg shadow-[#66ABFF]/25' 
             : 'text-[#B0B3B8] hover:bg-gradient-to-br hover:from-[#232428] hover:to-[#2A2D31] hover:text-white'
@@ -51,18 +52,15 @@ const SidebarIcon = ({ icon, label, active, onClick }: SidebarIconProps) => {
 const icons = [
   {
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M4.5 10.5V21h15V10.5" />
-      </svg>
+      <img src="/home.png" alt="Home" className="w-5 h-5 object-contain" />
     ),
     label: 'Home',
     active: false,
   },
   {
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-        <circle cx="12" cy="12" r="9" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35" />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>
     ),
     label: 'Explore',
@@ -70,20 +68,16 @@ const icons = [
   },
   {
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-        <rect x="4" y="4" width="16" height="16" rx="2" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 4v16M16 4v16" />
-      </svg>
+      <img src="/image.png" alt="Library" className="w-5 h-5 object-contain mb-2" />
     ),
     label: 'Library',
     active: false,
   },
   {
     icon: (
-      <span className="relative inline-block text-xs font-bold text-[#A855F7] group-hover:text-[#C084FC] transition-all duration-300">
-        <span className="absolute inset-0 bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#A855F7] animate-shimmer opacity-20" style={{backgroundSize:'200% 100%'}} />
-        <span className="relative z-10 drop-shadow-[0_0_16px_rgba(168,85,247,0.8)]">DNA</span>
-      </span>
+      <div className="w-12 h-10 bg-[#232428] rounded-lg flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300">
+        <img src="/DNA.png" alt="DNA" className="w-8 h-8 object-contain" />
+      </div>
     ),
     label: 'DNA',
     active: false,
@@ -94,6 +88,7 @@ const icons = [
 export default function Sidebar() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   
   return (
     <>
@@ -110,9 +105,35 @@ export default function Sidebar() {
       
       {/* Desktop Sidebar */}
       <aside
-        className="hidden md:flex fixed left-0 top-0 h-screen w-16 z-50 bg-gradient-to-b from-[#000000] to-[#0A0A0A] flex-col items-center py-4 space-y-4 border-r border-[#232428]/20"
+        className="hidden md:flex fixed left-0 top-0 h-screen w-[84px] z-50 bg-[#000000] flex-col items-center py-4 space-y-3 border-r border-[#232428]/20"
         aria-label="Sidebar"
       >
+        {/* Logo at top */}
+        <div className="w-[60px] h-[54px] mt-0 ml-[2px] relative flex items-center justify-center">
+          {!logoError ? (
+            <img
+              src="/logo.png"
+              alt="Soundverse Logo"
+              className="w-full h-full object-contain"
+              style={{ width: '60px', height: '54px' }}
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <div className="w-full h-full bg-[#232428] rounded-lg flex items-center justify-center text-white text-xs font-bold">
+              LOGO
+            </div>
+          )}
+        </div>
+        
+        {/* Plus icon in white circle */}
+        <SidebarIcon
+          icon={
+            <img src="/add.png" alt="Add" className="w-4 h-4 object-contain" />
+          }
+          label="Add"
+          active={false}
+        />
+        
         {icons.map((item, idx) => (
           <SidebarIcon
             key={item.label}
@@ -131,12 +152,38 @@ export default function Sidebar() {
       
       {/* Mobile Menu */}
       <aside
-        className={`md:hidden fixed left-0 top-0 h-screen w-64 z-50 bg-gradient-to-b from-[#000000] to-[#0A0A0A] transform transition-transform duration-300 ease-in-out border-r border-[#232428]/20 ${
+        className={`md:hidden fixed left-0 top-0 h-screen w-64 z-50 bg-[#000000] transform transition-transform duration-300 ease-in-out border-r border-[#232428]/20 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-label="Mobile Sidebar"
       >
-        <div className="flex flex-col items-center py-8 space-y-6">
+        <div className="flex flex-col items-center py-8 space-y-2">
+          {/* Logo in mobile menu */}
+          <div className="w-[60px] h-[54px] mb-4 flex items-center justify-center">
+            {!logoError ? (
+              <img
+                src="/logo.png"
+                alt="Soundverse Logo"
+                className="w-full h-full object-contain"
+                style={{ width: '60px', height: '54px' }}
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <div className="w-full h-full bg-[#232428] rounded-lg flex items-center justify-center text-white text-xs font-bold">
+                LOGO
+              </div>
+            )}
+          </div>
+          
+          {/* Plus icon in white circle for mobile */}
+          <SidebarIcon
+            icon={
+              <img src="/add.png" alt="Add" className="w-4 h-4 object-contain" />
+            }
+            label="Add"
+            active={false}
+          />
+          
           {icons.map((item, idx) => (
             <button
               key={item.label}
