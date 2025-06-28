@@ -12,7 +12,7 @@ export default function StepSection() {
       </ul>
       <div className="flex justify-center w-full">
         <button
-          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full transition-colors w-full sm:w-auto"
+          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg w-full sm:w-auto"
           onClick={() => router.push('/dna/create')}
         >
           Upload audio

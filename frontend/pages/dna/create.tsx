@@ -256,7 +256,7 @@ export default function DNACreationPage() {
                 />
                 <button
                   type="button"
-                  className="bg-[#7B3AED] hover:bg-[#5f2fc1] text-white font-semibold px-8 py-3 rounded-full transition-colors font-grotesk mb-6 w-full sm:w-auto"
+                  className="bg-[#7B3AED] hover:bg-[#5f2fc1] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk mb-6 w-full sm:w-auto"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   Upload audio file(s)
@@ -268,7 +268,7 @@ export default function DNACreationPage() {
                         <span className="truncate max-w-xs">{file.name}</span>
                         <button
                           type="button"
-                          className="ml-4 text-red-400 hover:text-red-600 text-lg font-bold"
+                          className="ml-4 text-red-400 hover:text-red-600 text-lg font-bold hover:scale-110 transition-transform duration-200"
                           onClick={() => handleRemoveFile(idx)}
                           aria-label={`Remove ${file.name}`}
                         >
@@ -321,14 +321,14 @@ export default function DNACreationPage() {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center">
                   <button
-                    className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 py-3 rounded-full transition-colors font-grotesk text-lg w-full sm:w-auto"
+                    className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-lg w-full sm:w-auto"
                     onClick={handleSetSensitivity}
                     disabled={step2Done}
                   >
                     Set Sensitivity
                   </button>
                   <button
-                    className="border border-white text-white font-grotesk text-lg px-8 py-3 rounded-full transition-colors hover:bg-[#232428] w-full sm:w-auto"
+                    className="border border-white text-white font-grotesk text-lg px-8 py-3 rounded-full hover:bg-[#232428] hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg w-full sm:w-auto"
                     onClick={handleSkipSensitivity}
                     disabled={step2Done}
                   >
@@ -389,7 +389,7 @@ export default function DNACreationPage() {
                       </div>
                       {/* Publish Button */}
                       <button
-                        className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold text-lg px-12 py-4 rounded-full shadow-xl transition-all duration-200 transform hover:scale-105 mb-8 tracking-wide"
+                        className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold text-lg px-12 py-4 rounded-full shadow-xl hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg mb-8 tracking-wide"
                         onClick={handlePublish}
                       >
                         <span className="inline-flex items-center gap-2">
@@ -407,14 +407,14 @@ export default function DNACreationPage() {
                             </div>
                             <div className="flex gap-8 mt-2">
                               <button
-                                className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold px-8 py-3 rounded-full text-lg shadow-md transition-all flex items-center gap-2"
+                                className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold px-8 py-3 rounded-full text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center gap-2"
                                 onClick={handleConfirmPublish}
                               >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                 Yes
                               </button>
                               <button
-                                className="bg-gradient-to-r from-[#ED254E] to-[#b91c1c] hover:from-[#b91c1c] hover:to-[#ED254E] text-white font-bold px-8 py-3 rounded-full text-lg shadow-md transition-all flex items-center gap-2"
+                                className="bg-gradient-to-r from-[#ED254E] to-[#b91c1c] hover:from-[#b91c1c] hover:to-[#ED254E] text-white font-bold px-8 py-3 rounded-full text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center gap-2"
                                 onClick={handleCancelPublish}
                               >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>

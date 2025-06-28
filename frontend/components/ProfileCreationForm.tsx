@@ -130,7 +130,7 @@ export default function ProfileCreationForm({
             )}
             <button
               type="button"
-              className="w-14 h-14 rounded-full bg-[#232428] flex items-center justify-center text-3xl text-[#B0B3B8] border-none focus:outline-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="w-14 h-14 rounded-full bg-[#232428] flex items-center justify-center text-3xl text-[#B0B3B8] border-none focus:outline-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-transform duration-200"
               onClick={() => fileInputRef.current?.click()}
               aria-label="Add picture"
             >
@@ -146,7 +146,7 @@ export default function ProfileCreationForm({
           </div>
           <button
             type="button"
-            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-8 py-3 rounded-full transition-colors font-grotesk text-lg"
+            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-lg"
             onClick={() => fileInputRef.current?.click()}
           >
             Upload Picture
@@ -182,7 +182,7 @@ export default function ProfileCreationForm({
                   <button
                     type="button"
                     key={c.id}
-                    className="flex w-full items-center gap-3 px-4 py-3 hover:bg-[#232428] text-left"
+                    className="flex w-full items-center gap-3 px-4 py-3 hover:bg-[#232428] text-left hover:scale-105 transition-transform duration-200"
                     onClick={() => {
                       setCreator(prev => ({
                         ...prev,
@@ -224,7 +224,7 @@ export default function ProfileCreationForm({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="w-8 h-8 rounded-full bg-[#232428] flex items-center justify-center text-xl text-[#B0B3B8] border-none focus:outline-none"
+              className="w-8 h-8 rounded-full bg-[#232428] flex items-center justify-center text-xl text-[#B0B3B8] border-none focus:outline-none hover:scale-110 transition-transform duration-200"
               onClick={handleAddTag}
               aria-label="Add tag"
               disabled={disabled}
@@ -245,7 +245,7 @@ export default function ProfileCreationForm({
                   {tag}
                   <button
                     type="button"
-                    className="ml-1 text-[#B0B3B8] hover:text-red-400 focus:outline-none"
+                    className="ml-1 text-[#B0B3B8] hover:text-red-400 focus:outline-none hover:scale-110 transition-transform duration-200"
                     style={{ fontSize: '1rem', lineHeight: 1 }}
                     aria-label={`Remove tag ${tag}`}
                     onClick={() => setTags(tags.filter(t => t !== tag))}
@@ -351,7 +351,7 @@ export default function ProfileCreationForm({
         <div className="flex justify-center mt-8">
           <button
             type="submit"
-            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-24 py-5 rounded-full transition-colors font-grotesk text-xl shadow-lg ml-64"
+            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-24 py-5 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-xl shadow-lg ml-64"
             disabled={uploading || disabled}
           >
             {uploading ? 'Uploading...' : 'Done'}

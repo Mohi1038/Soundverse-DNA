@@ -77,13 +77,12 @@ const icons = [
   },
   {
     icon: (
-      <span className="relative inline-block text-white text-xs font-bold rounded-full px-3 py-1 overflow-hidden">
-        <span className="absolute inset-0 bg-gradient-to-r from-[#66ABFF] via-[#4A90E2] to-[#66ABFF] animate-shimmer opacity-90" style={{backgroundSize:'200% 100%'}} />
-        <span className="relative z-10 text-white drop-shadow-[0_0_12px_rgba(102,171,255,0.9)]">DNA</span>
+      <span className="relative inline-block text-xs font-bold text-[#A855F7] group-hover:text-[#C084FC] transition-all duration-300">
+        <span className="absolute inset-0 bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#A855F7] animate-shimmer opacity-20" style={{backgroundSize:'200% 100%'}} />
+        <span className="relative z-10 drop-shadow-[0_0_16px_rgba(168,85,247,0.8)]">DNA</span>
       </span>
     ),
     label: 'DNA',
-    active: true,
     isDNA: true,
   },
 ];

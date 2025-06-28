@@ -8,10 +8,10 @@ const DNASection: React.FC = () => {
         Simply claim your profile, and we'll build your DNA automatically. Are you a creator with music already on Spotify, Youtube etc?
       </p>
       <div className="flex gap-4 flex-col sm:flex-row justify-center">
-        <button className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 py-3 rounded-full transition-colors">
+        <button className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg">
           Claim your profile
         </button>
-        <button className="bg-[#363636] hover:bg-[#232428] text-white font-semibold px-8 py-3 rounded-full transition-colors">
+        <button className="bg-[#363636] hover:bg-[#232428] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg">
           This doesn't apply to me
         </button>
       </div>
