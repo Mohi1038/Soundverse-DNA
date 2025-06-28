@@ -4,12 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Get database URL from environment variable
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:jRySvXw2kyQzdV92@db.faguwrzzuyhmqamebdgf.supabase.co:5432/postgres")
-
-# Convert to connection pooling URL for Supabase
-if "supabase.co" in DATABASE_URL:
-    # Use connection pooling for Supabase
-    DATABASE_URL = DATABASE_URL.replace(":5432/", ":6543/")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres.faguwrzzuyhmqamebdgf:jRySvXw2kyQzdV92@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require")
 
 # Create SQLAlchemy engine with connection pooling settings
 engine = create_engine(
