@@ -21,13 +21,102 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def check_database_schema():
+    """Check if the database schema is correct"""
+    try:
+        with engine.connect() as conn:
+            # Check if dna_profiles table exists
+            result = conn.execute(text("""
+                SELECT table_name 
+                FROM information_schema.tables 
+                WHERE table_name = 'dna_profiles'
+            """))
+            
+            if not result.fetchone():
+                logger.warning("dna_profiles table does not exist")
+                return False
+            
+            # Check if all required columns exist
+            required_columns = ['user_id', 'profile_name', 'dna_sequence', 'is_active']
+            for column in required_columns:
+                result = conn.execute(text(f"""
+                    SELECT column_name 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'dna_profiles' 
+                    AND column_name = '{column}'
+                """))
+                
+                if not result.fetchone():
+                    logger.warning(f"Column '{column}' missing from dna_profiles table")
+                    return False
+            
+            logger.info("✓ Database schema is correct")
+            return True
+            
+    except Exception as e:
+        logger.error(f"Error checking database schema: {e}")
+        return False
+
+def migrate_database_safely():
+    """Safely migrate database by adding missing columns without dropping data"""
+    try:
+        with engine.connect() as conn:
+            # Check if user_id column exists
+            result = conn.execute(text("""
+                SELECT column_name 
+                FROM information_schema.columns 
+                WHERE table_name = 'dna_profiles' 
+                AND column_name = 'user_id'
+            """))
+            
+            if not result.fetchone():
+                logger.info("Adding missing user_id column...")
+                conn.execute(text("ALTER TABLE dna_profiles ADD COLUMN user_id VARCHAR(255)"))
+                conn.execute(text("CREATE INDEX idx_dna_profiles_user_id ON dna_profiles(user_id)"))
+                logger.info("✓ user_id column added")
+            
+            # Check if is_active column exists
+            result = conn.execute(text("""
+                SELECT column_name 
+                FROM information_schema.columns 
+                WHERE table_name = 'dna_profiles' 
+                AND column_name = 'is_active'
+            """))
+            
+            if not result.fetchone():
+                logger.info("Adding missing is_active column...")
+                conn.execute(text("ALTER TABLE dna_profiles ADD COLUMN is_active BOOLEAN DEFAULT TRUE"))
+                logger.info("✓ is_active column added")
+            
+            conn.commit()
+            return True
+            
+    except Exception as e:
+        logger.error(f"Error during safe migration: {e}")
+        return False
+
 def setup_database():
     """Setup database tables with proper error handling"""
     try:
-        logger.info("Setting up database tables...")
+        logger.info("Checking database schema...")
         
-        # Force recreate all tables to ensure correct schema
-        logger.info("Dropping all existing tables...")
+        # Check if schema is correct first
+        if check_database_schema():
+            logger.info("✓ Database schema is already correct, no changes needed")
+            return True
+        
+        logger.warning("Database schema is incorrect. Attempting safe migration...")
+        
+        # Try safe migration first (preserves data)
+        if migrate_database_safely():
+            if check_database_schema():
+                logger.info("✓ Database migrated safely, data preserved")
+                return True
+        
+        logger.warning("Safe migration failed or insufficient. Recreating tables...")
+        
+        # Only recreate tables if safe migration didn't work
+        logger.info("Dropping existing tables...")
         models.Base.metadata.drop_all(bind=engine)
         logger.info("✓ All tables dropped successfully")
         
@@ -37,21 +126,12 @@ def setup_database():
         logger.info("✓ All tables created successfully with new schema")
         
         # Verify the schema is correct
-        with engine.connect() as conn:
-            result = conn.execute(text("""
-                SELECT column_name 
-                FROM information_schema.columns 
-                WHERE table_name = 'dna_profiles' 
-                AND column_name = 'user_id'
-            """))
-            
-            if result.fetchone():
-                logger.info("✓ Database schema verified successfully")
-            else:
-                logger.error("❌ Database schema verification failed")
-                return False
-        
-        return True
+        if check_database_schema():
+            logger.info("✓ Database schema verified successfully")
+            return True
+        else:
+            logger.error("❌ Database schema verification failed")
+            return False
         
     except Exception as e:
         logger.error(f"Error setting up database: {e}")
@@ -114,7 +194,8 @@ def check_schema():
                 "table": "dna_profiles",
                 "columns": columns,
                 "has_user_id": any(col["name"] == "user_id" for col in columns),
-                "has_is_active": any(col["name"] == "is_active" for col in columns)
+                "has_is_active": any(col["name"] == "is_active" for col in columns),
+                "schema_correct": check_database_schema()
             }
     except Exception as e:
         return {"error": str(e)}
