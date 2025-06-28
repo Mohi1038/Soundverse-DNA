@@ -164,16 +164,23 @@ export default function ProfileCreationForm({
 
   return (
     <form
-      className="bg-[#000000] border border-[#232428] rounded-2xl p-4 sm:p-8 lg:p-12 flex flex-col lg:flex-row min-h-[400px] w-full max-w-7xl mx-auto relative"
-      style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' }}
+      className="border border-[#232428] rounded-2xl p-4 sm:p-8 lg:p-12 flex flex-col lg:flex-row w-full max-w-[1800px] mx-auto relative font-inter"
+      style={{ 
+        height: '628px',
+        background: '#0B0B0B',
+        boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' 
+      }}
       onSubmit={handleSubmit}
     >
       {/* Upload Picture - Mobile: top, Desktop: top-right */}
       <div className="lg:absolute lg:right-12 lg:top-12 flex flex-col items-center z-10 mb-6 lg:mb-0">
         <div className="relative flex flex-col items-center">
           <div
-            className="w-32 h-32 sm:w-40 sm:h-40 lg:w-56 lg:h-56 rounded-full bg-[#232428] flex items-center justify-center border border-[#44474A] mb-4 relative overflow-hidden"
-            style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' }}
+            className="w-32 h-32 sm:w-40 sm:h-40 lg:w-56 lg:h-56 rounded-full flex items-center justify-center border border-[#44474A] mb-4 relative overflow-hidden"
+            style={{ 
+              background: '#121212',
+              boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' 
+            }}
           >
             {creator && (
               <img src={creator.image_url} alt={creator.name} className="w-full h-full object-cover rounded-full" />
@@ -196,7 +203,7 @@ export default function ProfileCreationForm({
           </div>
           <button
             type="button"
-            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-sm sm:text-base lg:text-lg"
+            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-power-grotesk text-sm sm:text-base lg:text-lg"
             onClick={() => fileInputRef.current?.click()}
           >
             Upload Picture
@@ -208,11 +215,11 @@ export default function ProfileCreationForm({
       <div className="flex-1 flex flex-col gap-3 sm:gap-4 lg:pr-80">
         {/* Custom Creator Dropdown */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Creator Name</label>
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Creator Name</label>
           <div className="relative w-full sm:w-96" ref={dropdownRef}>
             <input
               ref={inputRef}
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-grotesk text-sm sm:text-base focus:outline-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-macan text-sm sm:text-base focus:outline-none"
               placeholder="Name such as Coldplay or type your own"
               value={creator.name}
               onChange={handleCreatorInputChange}
@@ -261,9 +268,9 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Description</label>
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Description</label>
           <input
-            className="flex-1 bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-grotesk text-sm sm:text-base focus:outline-none"
+            className="flex-1 bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-macan text-sm sm:text-base focus:outline-none"
             placeholder="Upto 300 characters"
             maxLength={300}
             value={description}
@@ -273,7 +280,7 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Tags</label>
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Tags</label>
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -285,7 +292,7 @@ export default function ProfileCreationForm({
               +
             </button>
             <input
-              className="bg-[#1B1B1B] text-white rounded-full px-2 sm:px-3 py-1 font-grotesk text-xs sm:text-sm focus:outline-none w-20 sm:w-24"
+              className="bg-[#1B1B1B] text-white rounded-full px-2 sm:px-3 py-1 font-macan text-xs sm:text-sm focus:outline-none w-20 sm:w-24"
               placeholder="Add tag"
               value={tagInput}
               onChange={e => setTagInput(e.target.value)}
@@ -294,7 +301,7 @@ export default function ProfileCreationForm({
             />
             <div className="flex gap-1 sm:gap-2 flex-wrap">
               {tags.map(tag => (
-                <span key={tag} className="bg-[#232428] text-white rounded-full px-1.5 sm:px-2 py-0.5 text-xs font-grotesk flex items-center gap-1">
+                <span key={tag} className="bg-[#232428] text-white rounded-full px-1.5 sm:px-2 py-0.5 text-xs font-inter flex items-center gap-1">
                   {tag}
                   <button
                     type="button"
@@ -314,10 +321,10 @@ export default function ProfileCreationForm({
         
         {/* Dropdowns with descriptions */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">DNA Visibility</label>
-          <div className="relative w-full sm:w-72">
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>DNA Visibility</label>
+          <div className="relative w-full sm:w-48">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-macan text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.dnaVisibility}
               onChange={e => setCreator(prev => ({ ...prev, dnaVisibility: e.target.value }))}
               disabled={disabled}
@@ -331,10 +338,10 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Price</label>
-          <div className="relative w-full sm:w-72">
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Price</label>
+          <div className="relative w-full sm:w-32">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-macan text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.price}
               onChange={e => {
                 setCreator(prev => ({ ...prev, price: e.target.value }));
@@ -350,10 +357,10 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">License</label>
-          <div className="relative w-full sm:w-72">
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>License</label>
+          <div className="relative w-full sm:w-48">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-macan text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.license}
               onChange={e => {
                 setCreator(prev => ({ ...prev, license: e.target.value }));
@@ -369,10 +376,10 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Tracks</label>
-          <div className="relative w-full sm:w-72">
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Tracks</label>
+          <div className="relative w-full sm:w-32">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-macan text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.tracks}
               onChange={e => {
                 setCreator(prev => ({ ...prev, tracks: e.target.value }));
@@ -388,10 +395,10 @@ export default function ProfileCreationForm({
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Become Partner</label>
-          <div className="relative w-full sm:w-72">
+          <label className="w-full sm:w-40 text-left text-sm sm:text-base font-power-grotesk" style={{ fontSize: '20px' }}>Become Partner</label>
+          <div className="relative w-full sm:w-24">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-macan text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.partner}
               onChange={e => {
                 setCreator(prev => ({ ...prev, partner: e.target.value }));
@@ -410,7 +417,7 @@ export default function ProfileCreationForm({
         <div className="flex justify-center mt-6 sm:mt-8">
           <button
             type="submit"
-            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 sm:px-16 lg:px-24 py-3 sm:py-4 lg:py-5 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-lg sm:text-xl shadow-lg lg:ml-64"
+            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 sm:px-16 lg:px-24 py-3 sm:py-4 lg:py-5 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-power-grotesk text-lg sm:text-xl shadow-lg lg:ml-64"
             disabled={uploading || disabled}
           >
             {uploading ? 'Uploading...' : 'Done'}
