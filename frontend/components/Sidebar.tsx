@@ -160,7 +160,7 @@ export default function Sidebar() {
         <div className="flex flex-col h-full">
           {/* Header with close button */}
           <div className="flex items-center justify-between p-6 border-b border-[#232428]/20">
-            <div className="w-[50px] h-[45px] flex items-center justify-center">
+            <div className="w-[70px] h-[63px] flex items-center justify-center">
               {!logoError ? (
                 <img
                   src="/logo2.png"
@@ -186,7 +186,7 @@ export default function Sidebar() {
           
           {/* Menu Items */}
           <div className="flex-1 px-6 py-4 space-y-2">
-            {/* Add button with text */}
+            {/* Add button with text - aligned with other icons */}
             <button className="flex items-center gap-4 w-full px-4 py-3 rounded-xl transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg text-[#B0B3B8] hover:bg-gradient-to-r hover:from-[#232428] hover:to-[#2A2D31] hover:text-white">
               <div className="w-10 h-8 bg-[#232428] rounded-lg flex items-center justify-center">
                 <img src="/add.png" alt="Add" className="w-4 h-4 object-contain" />
@@ -207,7 +207,7 @@ export default function Sidebar() {
                   setMobileMenuOpen(false);
                 }}
               >
-                <div className="transition-transform duration-300 hover:scale-110">
+                <div className="w-10 h-8 flex items-center justify-center">
                   {item.icon}
                 </div>
                 <span className="text-lg font-medium">{item.label}</span>
