@@ -56,6 +56,7 @@ const icons = [
       </svg>
     ),
     label: 'Home',
+    active: false,
   },
   {
     icon: (
@@ -65,6 +66,7 @@ const icons = [
       </svg>
     ),
     label: 'Explore',
+    active: false,
   },
   {
     icon: (
@@ -74,6 +76,7 @@ const icons = [
       </svg>
     ),
     label: 'Library',
+    active: false,
   },
   {
     icon: (
@@ -83,6 +86,7 @@ const icons = [
       </span>
     ),
     label: 'DNA',
+    active: false,
     isDNA: true,
   },
 ];
