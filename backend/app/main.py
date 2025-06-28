@@ -21,17 +21,30 @@ app.add_middleware(
 )
 
 # Drop and recreate all tables to fix schema issues
-try:
-    # Drop all tables first
-    models.Base.metadata.drop_all(bind=engine)
-    logger.info("Dropped all existing tables")
-    
-    # Create all tables with new schema
-    models.Base.metadata.create_all(bind=engine)
-    logger.info("Database tables created successfully with new schema")
-except Exception as e:
-    logger.warning(f"Could not recreate database tables: {e}")
-    logger.info("App will start without database connection")
+def setup_database():
+    """Setup database tables with proper error handling"""
+    try:
+        logger.info("Setting up database tables...")
+        
+        # Drop all tables first
+        logger.info("Dropping all existing tables...")
+        models.Base.metadata.drop_all(bind=engine)
+        logger.info("✓ All tables dropped successfully")
+        
+        # Create all tables with new schema
+        logger.info("Creating tables with new schema...")
+        models.Base.metadata.create_all(bind=engine)
+        logger.info("✓ All tables created successfully with new schema")
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error setting up database: {e}")
+        logger.warning("App will start without proper database setup")
+        return False
+
+# Run database setup on startup
+setup_database()
 
 app.include_router(dna.router, prefix="/api")
 app.include_router(dna_profile.router, prefix="/api")
@@ -50,4 +63,16 @@ def debug_database():
         "database_url": DATABASE_URL,
         "env_database_url": os.getenv("DATABASE_URL", "Not set"),
         "host": "aws-0-ap-south-1.pooler.supabase.com" if "pooler.supabase.com" in DATABASE_URL else "old_host"
-    } 
+    }
+
+@app.post("/debug/recreate-tables")
+def recreate_tables():
+    """Endpoint to manually recreate database tables"""
+    try:
+        success = setup_database()
+        if success:
+            return {"message": "Database tables recreated successfully", "status": "success"}
+        else:
+            return {"message": "Failed to recreate database tables", "status": "error"}
+    except Exception as e:
+        return {"message": f"Error recreating tables: {str(e)}", "status": "error"} 
