@@ -160,7 +160,7 @@ export default function Sidebar() {
         <div className="flex flex-col h-full">
           {/* Header with close button */}
           <div className="flex items-center justify-between p-6 border-b border-[#232428]/20">
-            <div className="w-[70px] h-[63px] flex items-center justify-center">
+            <div className="w-[100px] h-[90px] flex items-center justify-center">
               {!logoError ? (
                 <img
                   src="/logo2.png"
