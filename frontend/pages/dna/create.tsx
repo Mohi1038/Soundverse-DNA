@@ -15,7 +15,7 @@ const steps = [
 
 function StepProgressBar({ currentStep, onStepClick, step3Done }: { currentStep: number; onStepClick: (idx: number) => void; step3Done: boolean }) {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center px-4">
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center w-full max-w-[1200px] mx-auto">
         {steps.map((step, idx) => {
           // Only allow navigation to steps <= currentStep, or to Step 4/5 if step3Done
@@ -25,7 +25,7 @@ function StepProgressBar({ currentStep, onStepClick, step3Done }: { currentStep:
             <button
               key={step}
               onClick={() => !isLocked && onStepClick(idx)}
-              className={`px-3 sm:px-6 py-2 sm:py-3 rounded-full font-power-grotesk text-xs sm:text-base font-medium transition-all duration-200 whitespace-nowrap outline-none
+              className={`px-2 sm:px-6 py-2 sm:py-3 rounded-full font-power-grotesk text-xs sm:text-base font-medium transition-all duration-200 whitespace-nowrap outline-none
                 ${isCurrent
                   ? 'bg-[#007D49] text-white shadow-lg scale-105'
                   : 'bg-[#232428] text-[#B0B3B8]'}
@@ -46,9 +46,9 @@ function StepProgressBar({ currentStep, onStepClick, step3Done }: { currentStep:
 
 function StepSection({ title, stepLabel, children, sectionRef }: { title: string; stepLabel?: string; children: React.ReactNode; sectionRef: React.RefObject<HTMLDivElement> }) {
   return (
-    <section ref={sectionRef} className="w-full max-w-7xl min-h-[70vh] flex flex-col justify-center py-4 sm:py-8 scroll-mt-40 ml-0 px-4 sm:px-8 md:px-16">
-      {stepLabel && <div className="text-[#B0B3B8] text-base sm:text-lg font-power-grotesk mb-4 text-left">{stepLabel}</div>}
-      <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 font-power-grotesk text-white text-left" style={{ fontSize: '32px' }}>{title}</h2>
+    <section ref={sectionRef} className="w-full max-w-7xl min-h-[70vh] flex flex-col justify-center py-4 sm:py-8 scroll-mt-20 sm:scroll-mt-40 ml-0 px-4 sm:px-8 md:px-16">
+      {stepLabel && <div className="text-[#B0B3B8] text-sm sm:text-lg font-power-grotesk mb-3 sm:mb-4 text-left">{stepLabel}</div>}
+      <h2 className="text-xl sm:text-3xl font-semibold mb-4 sm:mb-8 font-power-grotesk text-white text-left" style={{ fontSize: 'clamp(20px, 4vw, 32px)' }}>{title}</h2>
       {children}
     </section>
   );
@@ -71,8 +71,8 @@ function LoadingDNA({ onComplete, progressOverride }: { onComplete?: () => void;
   }, [progress, onComplete, progressOverride]);
   
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] w-full">
-      <div className="relative flex items-center justify-center w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] mx-auto">
+    <div className="flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] w-full px-4">
+      <div className="relative flex items-center justify-center w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[340px] md:h-[340px] mx-auto">
         {/* Crescent background */}
         <img 
           src="/crescent.png" 
@@ -86,8 +86,8 @@ function LoadingDNA({ onComplete, progressOverride }: { onComplete?: () => void;
           className="w-full h-full object-contain absolute"
         />
       </div>
-      <div className="mt-6 sm:mt-8 text-[#66ABFF] text-lg sm:text-xl font-bold font-power-grotesk">{Math.min(progress, 100)}%</div>
-      <div className="mt-6 sm:mt-8 text-[#D9D9D9] text-center max-w-2xl mx-auto font-inter px-4" style={{ fontSize: '13px' }}>
+      <div className="mt-4 sm:mt-8 text-[#66ABFF] text-base sm:text-lg md:text-xl font-bold font-power-grotesk">{Math.min(progress, 100)}%</div>
+      <div className="mt-4 sm:mt-8 text-[#D9D9D9] text-center max-w-2xl mx-auto font-inter px-2 sm:px-4" style={{ fontSize: 'clamp(11px, 2.5vw, 13px)' }}>
         YOUR DNA WILL BE READY IN A FEW MINUTES. WE&apos;LL INFORM YOU ONCE IT&apos;S READY. YOU CAN USE THE STUDIO MEANWHILE
       </div>
     </div>
@@ -202,13 +202,13 @@ export default function DNACreationPage() {
       {/* Sidebar: always fixed, always visible */}
       <Sidebar />
       {/* Main content: margin-left for sidebar, fills rest of screen */}
-      <div className="flex-1 min-h-screen ml-16">
+      <div className="flex-1 min-h-screen ml-0 md:ml-16">
         {/* Top section: full width, sticky, with your custom colors/gradient */}
-        <div className="sticky top-0 z-30 w-full pl-16 border-b border-[#232428] shadow-[0_4px_24px_0_rgba(0,0,0,0.12)]"
-          style={{background: 'linear-gradient(90deg, #2a2a2a 0%, #233a50 8%, #233a50 20%, #1a1a1a 40%, #181A1B 100%)', height: '240px'}}
+        <div className="sticky top-0 z-30 w-full pl-4 md:pl-16 border-b border-[#232428] shadow-[0_4px_24px_0_rgba(0,0,0,0.12)]"
+          style={{background: 'linear-gradient(90deg, #2a2a2a 0%, #233a50 8%, #233a50 20%, #1a1a1a 40%, #181A1B 100%)', height: 'clamp(200px, 25vh, 240px)'}}
         >
-          <div className="max-w-[1200px] py-6 md:py-10 px-4 md:px-0 md:pl-8">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-light text-white tracking-tight font-power-grotesk mb-2">Build DNA by Uploading Audio Tracks</h1>
+          <div className="max-w-[1200px] py-4 md:py-10 px-4 md:px-0 md:pl-8">
+            <h1 className="text-xl sm:text-3xl md:text-4xl font-light text-white tracking-tight font-power-grotesk mb-2">Build DNA by Uploading Audio Tracks</h1>
             <p className="text-[#B0B3B8] text-sm sm:text-base md:text-lg font-inter mb-0">You can upload your music, and build your DNA.</p>
           </div>
           <div className="px-4 md:px-0 md:pl-8 pb-4">
@@ -219,10 +219,9 @@ export default function DNACreationPage() {
         <div className="w-full flex-1 pl-4 sm:pl-8 md:pl-12 bg-[#0d0d0d]">
           <StepSection title="Upload Audio" stepLabel="Step 1" sectionRef={sectionRefs[0]}>
             <div
-              className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-center justify-center relative ml-0 transition-all"
+              className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-center justify-center relative ml-0 transition-all w-full max-w-[965px] mx-auto"
               style={{
-                width: '965px',
-                height: '465px',
+                minHeight: 'clamp(400px, 60vh, 465px)',
                 background: 'linear-gradient(135deg, #181A1C 0%, #0B0C0D 100%)',
                 boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)'
               }}
@@ -271,19 +270,18 @@ export default function DNACreationPage() {
           </StepSection>
           <StepSection title="DNA Sensitivity" stepLabel="Step 2" sectionRef={sectionRefs[1]}>
             <div 
-              className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-center justify-center relative ml-0 transition-all"
+              className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-center justify-center relative ml-0 transition-all w-full max-w-[965px] mx-auto"
               style={{
-                width: '965px',
-                height: '465px',
+                minHeight: 'clamp(400px, 60vh, 465px)',
                 background: '#0B0B0B',
                 boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)'
               }}
             >
               <div className="flex flex-col items-start w-full ml-0 -mt-12">
-                <div className="text-white text-xl sm:text-2xl font-power-grotesk font-semibold mb-4">Set the level of sensitivity for the DNA creation</div>
-                <div className="text-[#B0B3B8] text-sm sm:text-base font-inter mb-16 sm:mb-20">Less sensitivity will result in less number of DNAs, higher sensitivity will result in many niche DNAs.</div>
+                <div className="text-white text-lg sm:text-2xl font-power-grotesk font-semibold mb-4">Set the level of sensitivity for the DNA creation</div>
+                <div className="text-[#B0B3B8] text-sm sm:text-base font-inter mb-12 sm:mb-20">Less sensitivity will result in less number of DNAs, higher sensitivity will result in many niche DNAs.</div>
                 <div className="w-full flex flex-col items-center mb-6 sm:mb-8">
-                  <div className="relative w-3/4 mb-4">
+                  <div className="relative w-full sm:w-3/4 mb-4">
                     <input
                       type="range"
                       min={1}
@@ -327,19 +325,19 @@ export default function DNACreationPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex justify-between w-3/4 mt-4 text-[#B0B3B8] text-xs sm:text-base font-inter">
-                    <div className="flex flex-col items-start -ml-6 -mt-4">
+                  <div className="flex justify-between w-full sm:w-3/4 mt-4 text-[#B0B3B8] text-xs sm:text-base font-inter">
+                    <div className="flex flex-col items-start -ml-2 sm:-ml-6 -mt-4">
                       <span>Least Sensitive</span>
                       <span className="text-xs sm:text-sm">(Generic Genre DNAs)</span>
                     </div>
                     <div className="text-center text-xs sm:text-base -mt-4">Recommended</div>
-                    <div className="flex flex-col items-end -mr-8 -mt-4">
+                    <div className="flex flex-col items-end -mr-2 sm:-mr-8 -mt-4">
                       <span>Highly Sensitive</span>
                       <span className="text-xs sm:text-sm">(Niche Genre DNAs)</span>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 mt-4 w-full justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 w-full justify-center">
                   <button
                     className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-6 sm:px-8 py-2 sm:py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-power-grotesk text-base sm:text-lg w-full sm:w-auto"
                     onClick={handleSetSensitivity}
@@ -383,22 +381,21 @@ export default function DNACreationPage() {
               </StepSection>
               <StepSection title="Publish" stepLabel="Step 5" sectionRef={sectionRefs[4]}>
                 <div 
-                  className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-start justify-between relative ml-0 transition-all"
+                  className="rounded-2xl border border-[#44474A] p-4 sm:p-8 md:p-12 flex flex-col items-start justify-between relative ml-0 transition-all w-full max-w-[965px] mx-auto"
                   style={{
-                    width: '965px',
-                    height: '465px',
+                    minHeight: 'clamp(400px, 60vh, 465px)',
                     background: '#0B0B0B',
                     boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)'
                   }}
                 >
                   {!publishSuccess ? (
                     <>
-                      <div className="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                        <svg className="w-6 h-6 sm:w-7 sm:h-7 text-[#007D49]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <div className="text-lg sm:text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                        <svg className="w-5 h-5 sm:w-7 sm:h-7 text-[#007D49]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         Review Before Publishing
                       </div>
                       <div className="text-[#B0B3B8] mb-4 sm:mb-6 text-left text-sm sm:text-base font-inter">Please review your information below before publishing your DNA profile.</div>
-                      <div className="w-full flex flex-col gap-3 sm:gap-4 mb-8">
+                      <div className="w-full flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                           <span className="text-[#66ABFF] font-semibold text-sm sm:text-base">Creator:</span>
                           <span className="text-white text-sm sm:text-base">{creatorInput || (creator && creator.name) || <span className='italic text-[#B0B3B8]'>Not set</span>}</span>
@@ -414,7 +411,7 @@ export default function DNACreationPage() {
                       </div>
                       <div className="w-full flex justify-center">
                         <button
-                          className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold text-base sm:text-lg px-8 sm:px-12 py-3 sm:py-4 rounded-full shadow-xl hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg mb-6 sm:mb-8 tracking-wide"
+                          className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold text-base sm:text-lg px-6 sm:px-12 py-3 sm:py-4 rounded-full shadow-xl hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg mb-4 sm:mb-8 tracking-wide w-full sm:w-auto"
                           onClick={handlePublish}
                         >
                           <span className="inline-flex items-center gap-2">
@@ -427,20 +424,20 @@ export default function DNACreationPage() {
                       {showPublishModal && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 animate-fade-in p-4">
                           <div className="bg-[#181A1B] rounded-2xl p-6 sm:p-10 shadow-2xl flex flex-col items-center border border-[#232428] max-w-md w-full">
-                            <div className="text-white text-xl sm:text-2xl font-power-grotesk mb-4 sm:mb-6 font-bold flex items-center gap-2">
+                            <div className="text-white text-lg sm:text-2xl font-power-grotesk mb-4 sm:mb-6 font-bold flex items-center gap-2">
                               <svg className="w-6 h-6 sm:w-7 sm:h-7 text-[#007D49]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                               Are you sure you want to publish?
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-2">
+                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-2 w-full">
                               <button
-                                className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center gap-2"
+                                className="bg-[#007D49] hover:bg-[#00653a] text-white font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center justify-center gap-2 flex-1"
                                 onClick={handleConfirmPublish}
                               >
                                 <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                 Yes
                               </button>
                               <button
-                                className="bg-gradient-to-r from-[#ED254E] to-[#b91c1c] hover:from-[#b91c1c] hover:to-[#ED254E] text-white font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center gap-2"
+                                className="bg-gradient-to-r from-[#ED254E] to-[#b91c1c] hover:from-[#b91c1c] hover:to-[#ED254E] text-white font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg flex items-center justify-center gap-2 flex-1"
                                 onClick={handleCancelPublish}
                               >
                                 <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -454,7 +451,7 @@ export default function DNACreationPage() {
                   ) : (
                     <div className="flex flex-col items-start justify-center gap-4 sm:gap-6">
                       <CheckCircleIcon className="w-16 h-16 sm:w-20 sm:h-20 text-[#00A06B] animate-bounce" />
-                      <div className="text-[#00A06B] text-2xl sm:text-3xl font-bold font-power-grotesk text-left">Your DNA has been published! 🎉</div>
+                      <div className="text-[#00A06B] text-xl sm:text-3xl font-bold font-power-grotesk text-left">Your DNA has been published! 🎉</div>
                     </div>
                   )}
                 </div>
