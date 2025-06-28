@@ -10,6 +10,7 @@ CREATE TABLE dna_profiles (
     user_id VARCHAR(255) NOT NULL,
     profile_name VARCHAR(255) NOT NULL,
     dna_sequence TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -18,8 +19,8 @@ CREATE TABLE dna_profiles (
 CREATE INDEX idx_dna_profiles_user_id ON dna_profiles(user_id);
 
 -- Insert a test record to verify the table works
-INSERT INTO dna_profiles (user_id, profile_name, dna_sequence) 
-VALUES ('test_user', 'Test Profile', 'ATCGATCGATCG');
+INSERT INTO dna_profiles (user_id, profile_name, dna_sequence, is_active) 
+VALUES ('test_user', 'Test Profile', 'ATCGATCGATCG', TRUE);
 
 -- Verify the table was created correctly
 SELECT column_name, data_type, is_nullable 

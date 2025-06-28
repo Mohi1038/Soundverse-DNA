@@ -26,9 +26,18 @@ def setup_database():
     try:
         logger.info("Setting up database tables...")
         
-        # First, check if tables exist and have the right schema
+        # Force recreate all tables to ensure correct schema
+        logger.info("Dropping all existing tables...")
+        models.Base.metadata.drop_all(bind=engine)
+        logger.info("✓ All tables dropped successfully")
+        
+        # Create all tables with new schema
+        logger.info("Creating tables with new schema...")
+        models.Base.metadata.create_all(bind=engine)
+        logger.info("✓ All tables created successfully with new schema")
+        
+        # Verify the schema is correct
         with engine.connect() as conn:
-            # Check if dna_profiles table exists and has user_id column
             result = conn.execute(text("""
                 SELECT column_name 
                 FROM information_schema.columns 
@@ -36,17 +45,11 @@ def setup_database():
                 AND column_name = 'user_id'
             """))
             
-            if not result.fetchone():
-                logger.warning("dna_profiles table missing user_id column. Recreating tables...")
-                # Drop all tables first
-                models.Base.metadata.drop_all(bind=engine)
-                logger.info("✓ All tables dropped successfully")
-                
-                # Create all tables with new schema
-                models.Base.metadata.create_all(bind=engine)
-                logger.info("✓ All tables created successfully with new schema")
+            if result.fetchone():
+                logger.info("✓ Database schema verified successfully")
             else:
-                logger.info("✓ Database schema is correct")
+                logger.error("❌ Database schema verification failed")
+                return False
         
         return True
         
@@ -110,7 +113,33 @@ def check_schema():
             return {
                 "table": "dna_profiles",
                 "columns": columns,
-                "has_user_id": any(col["name"] == "user_id" for col in columns)
+                "has_user_id": any(col["name"] == "user_id" for col in columns),
+                "has_is_active": any(col["name"] == "is_active" for col in columns)
             }
     except Exception as e:
-        return {"error": str(e)} 
+        return {"error": str(e)}
+
+@app.get("/fix-db")
+def fix_database_endpoint():
+    """Immediate database fix endpoint - call this right after deployment"""
+    try:
+        logger.info("Manual database fix triggered...")
+        success = setup_database()
+        if success:
+            return {
+                "message": "Database fixed successfully! You can now use the API.",
+                "status": "success",
+                "next_steps": "Try creating a DNA profile now"
+            }
+        else:
+            return {
+                "message": "Database fix failed",
+                "status": "error",
+                "next_steps": "Check the logs for more details"
+            }
+    except Exception as e:
+        return {
+            "message": f"Error fixing database: {str(e)}",
+            "status": "error",
+            "next_steps": "Contact support"
+        } 
