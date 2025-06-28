@@ -8,6 +8,13 @@ interface ProfileMenuProps {
 export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
+  console.log('ProfileMenu render - isOpen:', isOpen);
+
+  if (!isOpen) {
+    console.log('ProfileMenu not rendering - isOpen is false');
+    return null;
+  }
+
   const menuItems = [
     {
       id: 'profile',
@@ -51,13 +58,13 @@ export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
     }
   ];
 
-  if (!isOpen) return null;
+  console.log('ProfileMenu rendering menu items');
 
   return (
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 z-40" 
+        className="fixed inset-0 z-40 bg-red-500 bg-opacity-20" 
         onClick={onClose}
       />
       
