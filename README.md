@@ -6,7 +6,6 @@ A monorepo for the Soundverse DNA Creation Page, featuring a pixel-perfect, resp
 
 - `frontend/` — Next.js + Tailwind CSS app
 - `backend/` — FastAPI app (REST API)
-- `docker-compose.yml` — (Optional) For running everything together
 
 ## Getting Started
 
