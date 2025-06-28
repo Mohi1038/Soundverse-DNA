@@ -5,6 +5,7 @@ from app.database import engine, DATABASE_URL
 from app import models
 import logging
 import os
+from sqlalchemy import text
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -20,21 +21,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Drop and recreate all tables to fix schema issues
 def setup_database():
     """Setup database tables with proper error handling"""
     try:
         logger.info("Setting up database tables...")
         
-        # Drop all tables first
-        logger.info("Dropping all existing tables...")
-        models.Base.metadata.drop_all(bind=engine)
-        logger.info("✓ All tables dropped successfully")
-        
-        # Create all tables with new schema
-        logger.info("Creating tables with new schema...")
-        models.Base.metadata.create_all(bind=engine)
-        logger.info("✓ All tables created successfully with new schema")
+        # First, check if tables exist and have the right schema
+        with engine.connect() as conn:
+            # Check if dna_profiles table exists and has user_id column
+            result = conn.execute(text("""
+                SELECT column_name 
+                FROM information_schema.columns 
+                WHERE table_name = 'dna_profiles' 
+                AND column_name = 'user_id'
+            """))
+            
+            if not result.fetchone():
+                logger.warning("dna_profiles table missing user_id column. Recreating tables...")
+                # Drop all tables first
+                models.Base.metadata.drop_all(bind=engine)
+                logger.info("✓ All tables dropped successfully")
+                
+                # Create all tables with new schema
+                models.Base.metadata.create_all(bind=engine)
+                logger.info("✓ All tables created successfully with new schema")
+            else:
+                logger.info("✓ Database schema is correct")
         
         return True
         
@@ -43,8 +55,11 @@ def setup_database():
         logger.warning("App will start without proper database setup")
         return False
 
-# Run database setup on startup
-setup_database()
+@app.on_event("startup")
+async def startup_event():
+    """Run database setup on startup"""
+    logger.info("Starting Soundverse DNA API...")
+    setup_database()
 
 app.include_router(dna.router, prefix="/api")
 app.include_router(dna_profile.router, prefix="/api")
@@ -75,4 +90,27 @@ def recreate_tables():
         else:
             return {"message": "Failed to recreate database tables", "status": "error"}
     except Exception as e:
-        return {"message": f"Error recreating tables: {str(e)}", "status": "error"} 
+        return {"message": f"Error recreating tables: {str(e)}", "status": "error"}
+
+@app.get("/debug/check-schema")
+def check_schema():
+    """Check the current database schema"""
+    try:
+        with engine.connect() as conn:
+            # Check dna_profiles table structure
+            result = conn.execute(text("""
+                SELECT column_name, data_type 
+                FROM information_schema.columns 
+                WHERE table_name = 'dna_profiles' 
+                ORDER BY ordinal_position
+            """))
+            
+            columns = [{"name": row[0], "type": row[1]} for row in result.fetchall()]
+            
+            return {
+                "table": "dna_profiles",
+                "columns": columns,
+                "has_user_id": any(col["name"] == "user_id" for col in columns)
+            }
+    except Exception as e:
+        return {"error": str(e)} 
