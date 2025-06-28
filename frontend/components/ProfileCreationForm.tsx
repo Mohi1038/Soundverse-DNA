@@ -164,15 +164,15 @@ export default function ProfileCreationForm({
 
   return (
     <form
-      className="bg-[#000000] border border-[#232428] rounded-2xl p-12 flex flex-row min-h-[400px] w-full max-w-7xl mx-auto relative"
+      className="bg-[#000000] border border-[#232428] rounded-2xl p-4 sm:p-8 lg:p-12 flex flex-col lg:flex-row min-h-[400px] w-full max-w-7xl mx-auto relative"
       style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' }}
       onSubmit={handleSubmit}
     >
-      {/* Upload Picture at top-right */}
-      <div className="absolute right-12 top-12 flex flex-col items-center z-10">
+      {/* Upload Picture - Mobile: top, Desktop: top-right */}
+      <div className="lg:absolute lg:right-12 lg:top-12 flex flex-col items-center z-10 mb-6 lg:mb-0">
         <div className="relative flex flex-col items-center">
           <div
-            className="w-56 h-56 rounded-full bg-[#232428] flex items-center justify-center border border-[#44474A] mb-4 relative overflow-hidden"
+            className="w-32 h-32 sm:w-40 sm:h-40 lg:w-56 lg:h-56 rounded-full bg-[#232428] flex items-center justify-center border border-[#44474A] mb-4 relative overflow-hidden"
             style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.12)' }}
           >
             {creator && (
@@ -180,7 +180,7 @@ export default function ProfileCreationForm({
             )}
             <button
               type="button"
-              className="w-14 h-14 rounded-full bg-[#232428] flex items-center justify-center text-3xl text-[#B0B3B8] border-none focus:outline-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-transform duration-200"
+              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-14 lg:h-14 rounded-full bg-[#232428] flex items-center justify-center text-lg sm:text-xl lg:text-3xl text-[#B0B3B8] border-none focus:outline-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-transform duration-200"
               onClick={() => fileInputRef.current?.click()}
               aria-label="Add picture"
             >
@@ -196,22 +196,23 @@ export default function ProfileCreationForm({
           </div>
           <button
             type="button"
-            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-8 py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-lg"
+            className="bg-[#232428] hover:bg-[#363636] text-white font-semibold px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-sm sm:text-base lg:text-lg"
             onClick={() => fileInputRef.current?.click()}
           >
             Upload Picture
           </button>
         </div>
       </div>
-      {/* Left: Form Fields (take full width except for picture) */}
-      <div className="flex-1 flex flex-col gap-4 pr-80">
+      
+      {/* Form Fields - Mobile: full width, Desktop: left side with padding */}
+      <div className="flex-1 flex flex-col gap-3 sm:gap-4 lg:pr-80">
         {/* Custom Creator Dropdown */}
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Creator Name</label>
-          <div className="relative w-96" ref={dropdownRef}>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Creator Name</label>
+          <div className="relative w-full sm:w-96" ref={dropdownRef}>
             <input
               ref={inputRef}
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-6 py-3 font-grotesk text-base focus:outline-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-grotesk text-sm sm:text-base focus:outline-none"
               placeholder="Name such as Coldplay or type your own"
               value={creator.name}
               onChange={handleCreatorInputChange}
@@ -247,10 +248,10 @@ export default function ProfileCreationForm({
                     }}
                     disabled={disabled}
                   >
-                    <img src={c.image_url} alt={c.name || (c as any).creator} className="w-10 h-10 rounded-full object-cover border border-[#232428]" />
-                    <div>
-                      <div className="font-semibold text-white">{c.name || (c as any).creator}</div>
-                      <div className="text-xs text-[#B0B3B8]">{c.genre} &middot; {c.description}</div>
+                    <img src={c.image_url} alt={c.name || (c as any).creator} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-[#232428]" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-white text-sm sm:text-base truncate">{c.name || (c as any).creator}</div>
+                      <div className="text-xs text-[#B0B3B8] truncate">{c.genre} &middot; {c.description}</div>
                     </div>
                   </button>
                 ))}
@@ -258,10 +259,11 @@ export default function ProfileCreationForm({
             )}
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Description</label>
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Description</label>
           <input
-            className="flex-1 bg-[#1B1B1B] text-white rounded-full px-6 py-3 font-grotesk text-base focus:outline-none"
+            className="flex-1 bg-[#1B1B1B] text-white rounded-full px-4 sm:px-6 py-2 sm:py-3 font-grotesk text-sm sm:text-base focus:outline-none"
             placeholder="Upto 300 characters"
             maxLength={300}
             value={description}
@@ -269,12 +271,13 @@ export default function ProfileCreationForm({
             disabled={disabled}
           />
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Tags</label>
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Tags</label>
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="w-8 h-8 rounded-full bg-[#232428] flex items-center justify-center text-xl text-[#B0B3B8] border-none focus:outline-none hover:scale-110 transition-transform duration-200"
+              className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#232428] flex items-center justify-center text-lg sm:text-xl text-[#B0B3B8] border-none focus:outline-none hover:scale-110 transition-transform duration-200"
               onClick={handleAddTag}
               aria-label="Add tag"
               disabled={disabled}
@@ -282,21 +285,21 @@ export default function ProfileCreationForm({
               +
             </button>
             <input
-              className="bg-[#1B1B1B] text-white rounded-full px-3 py-1 font-grotesk text-sm focus:outline-none w-24"
+              className="bg-[#1B1B1B] text-white rounded-full px-2 sm:px-3 py-1 font-grotesk text-xs sm:text-sm focus:outline-none w-20 sm:w-24"
               placeholder="Add tag"
               value={tagInput}
               onChange={e => setTagInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddTag(); } }}
               disabled={disabled}
             />
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-1 sm:gap-2 flex-wrap">
               {tags.map(tag => (
-                <span key={tag} className="bg-[#232428] text-white rounded-full px-2 py-0.5 text-xs font-grotesk flex items-center gap-1">
+                <span key={tag} className="bg-[#232428] text-white rounded-full px-1.5 sm:px-2 py-0.5 text-xs font-grotesk flex items-center gap-1">
                   {tag}
                   <button
                     type="button"
                     className="ml-1 text-[#B0B3B8] hover:text-red-400 focus:outline-none hover:scale-110 transition-transform duration-200"
-                    style={{ fontSize: '1rem', lineHeight: 1 }}
+                    style={{ fontSize: '0.875rem', lineHeight: 1 }}
                     aria-label={`Remove tag ${tag}`}
                     onClick={() => setTags(tags.filter(t => t !== tag))}
                     disabled={disabled}
@@ -308,12 +311,13 @@ export default function ProfileCreationForm({
             </div>
           </div>
         </div>
+        
         {/* Dropdowns with descriptions */}
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">DNA Visibility</label>
-          <div className="relative w-72">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">DNA Visibility</label>
+          <div className="relative w-full sm:w-72">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 py-2 font-grotesk text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.dnaVisibility}
               onChange={e => setCreator(prev => ({ ...prev, dnaVisibility: e.target.value }))}
               disabled={disabled}
@@ -322,14 +326,15 @@ export default function ProfileCreationForm({
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
+            <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Price</label>
-          <div className="relative w-72">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Price</label>
+          <div className="relative w-full sm:w-72">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 py-2 font-grotesk text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.price}
               onChange={e => {
                 setCreator(prev => ({ ...prev, price: e.target.value }));
@@ -340,14 +345,15 @@ export default function ProfileCreationForm({
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
+            <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">License</label>
-          <div className="relative w-72">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">License</label>
+          <div className="relative w-full sm:w-72">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 py-2 font-grotesk text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.license}
               onChange={e => {
                 setCreator(prev => ({ ...prev, license: e.target.value }));
@@ -358,14 +364,15 @@ export default function ProfileCreationForm({
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
+            <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Tracks</label>
-          <div className="relative w-72">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Tracks</label>
+          <div className="relative w-full sm:w-72">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 py-2 font-grotesk text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.tracks}
               onChange={e => {
                 setCreator(prev => ({ ...prev, tracks: e.target.value }));
@@ -376,14 +383,15 @@ export default function ProfileCreationForm({
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
+            <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <label className="w-40 text-right text-base font-grotesk">Become Partner</label>
-          <div className="relative w-72">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label className="w-full sm:w-40 text-left sm:text-right text-sm sm:text-base font-grotesk">Become Partner</label>
+          <div className="relative w-full sm:w-72">
             <select
-              className="w-full bg-[#1B1B1B] text-white rounded-full px-4 py-2 font-grotesk text-base focus:outline-none appearance-none"
+              className="w-full bg-[#1B1B1B] text-white rounded-full px-3 sm:px-4 py-2 font-grotesk text-sm sm:text-base focus:outline-none appearance-none"
               value={creator.partner}
               onChange={e => {
                 setCreator(prev => ({ ...prev, partner: e.target.value }));
@@ -394,14 +402,15 @@ export default function ProfileCreationForm({
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
+            <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B0B3B8]">▼</span>
           </div>
         </div>
+        
         {/* Centered Done button at the bottom */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-6 sm:mt-8">
           <button
             type="submit"
-            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-24 py-5 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-xl shadow-lg ml-64"
+            className="bg-[#007D49] hover:bg-[#00653a] text-white font-semibold px-8 sm:px-16 lg:px-24 py-3 sm:py-4 lg:py-5 rounded-full hover:scale-105 hover:translate-y-[-2px] transition-all duration-200 ease-out transform hover:shadow-lg font-grotesk text-lg sm:text-xl shadow-lg lg:ml-64"
             disabled={uploading || disabled}
           >
             {uploading ? 'Uploading...' : 'Done'}
